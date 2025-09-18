@@ -1,468 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nex - Willkommen</title>
-    <style>
-        /* Grundlegende Stile */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            background-color: #f5f5f7;
-            color: #1d1d1f;
-            overflow-x: hidden;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NexShop — Komplett (All‑in‑1)</title>
+  <meta name="description" content="NexShop — Single HTML demo: Produktseite, Warenkorb, Checkout, Rechnung (PDF), Bestell-Export — keine Fremdbilder" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f6f7fb;--card:#fff;--muted:#6b7280;--accent:#0066dd;--accent-strong:#004bb5;--radius:14px;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;background:linear-gradient(180deg,var(--bg),#eef2f7 140%);color:#071133}
+    .wrap{max-width:1100px;margin:28px auto;padding:0 20px}
+    header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+    .logo{display:flex;align-items:center;gap:12px}
+    .brandbox{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-strong));display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+    nav a{color:var(--muted);text-decoration:none;margin-right:12px;font-size:14px}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(0,102,221,0.12)}
 
-        /* Navigation */
-        .nav-container {
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid #ddd;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:20px;padding:22px;background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(6,20,40,0.05)}
+    .pill{background:rgba(0,102,221,0.08);padding:8px 12px;border-radius:999px;display:inline-block;font-weight:700;color:var(--accent)}
 
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 0 22px;
-            height: 44px;
-            font-size: 12px;
-        }
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px}
+    .card{background:var(--card);padding:16px;border-radius:12px;display:flex;gap:14px;align-items:center;box-shadow:0 8px 20px rgba(10,15,30,0.03)}
+    .thumb{width:100px;height:100px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#fbfcff}
+    .title{font-weight:800;margin:0}
+    .desc{color:var(--muted);margin:6px 0}
+    .price{font-weight:800}
 
-        .nav-links {
-            display: flex;
-            gap: 2em;
-            list-style: none;
-        }
+    .checkout{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:20px}
+    .form{background:var(--card);padding:14px;border-radius:12px}
+    label{display:block;font-size:13px;color:var(--muted);margin-top:10px}
+    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(10,15,30,0.06);margin-top:6px}
 
-        .nav-links a {
-            text-decoration: none;
-            color: #1d1d1f;
-            transition: color 0.3s ease;
-        }
+    .summary{background:linear-gradient(180deg,rgba(0,102,221,0.06),transparent);padding:16px;border-radius:12px}
+    .muted{color:var(--muted)}
 
-        .nav-links a:hover {
-            color: #0071e3;
-        }
-        
-        .nav-logo, .nav-bag {
-            font-weight: 600;
-        }
+    .cart-drawer{position:fixed;right:18px;bottom:18px;width:360px;background:var(--card);border-radius:12px;box-shadow:0 16px 60px rgba(6,20,40,0.12);overflow:hidden;transform:translateY(20px);opacity:0;pointer-events:none;transition:all .26s}
+    .cart-drawer.open{transform:translateY(0);opacity:1;pointer-events:auto}
 
-        /* Hero-Sektion (Startseite) */
-        .hero-section {
-            text-align: center;
-            padding: 100px 20px;
-            background-color: #fff;
-        }
-
-        .hero-section .eyebrow {
-            color: #bf4800;
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .hero-section .headline {
-            font-size: 56px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: -0.005em;
-        }
-
-        .hero-section .subheadline {
-            font-size: 28px;
-            font-weight: 400;
-            margin-bottom: 20px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .hero-section .tagline {
-            font-size: 21px;
-            color: #86868b;
-            margin-top: 25px;
-        }
-
-        .cta-links a {
-            font-size: 17px;
-            text-decoration: none;
-            color: #0071e3;
-            margin: 0 15px;
-            transition: text-decoration 0.3s;
-        }
-        .cta-links a:hover {
-            text-decoration: underline;
-        }
-        .cta-links .button {
-            background-color: #0071e3;
-            color: white;
-            padding: 11px 21px;
-            border-radius: 980px;
-        }
-        .cta-links .button:hover {
-            background-color: #0077ed;
-            text-decoration: none;
-        }
-
-        .hero-image {
-            margin-top: 60px;
-        }
-
-        .hero-image img {
-            max-width: 100%;
-            height: auto;
-            max-height: 500px;
-        }
-
-        /* Produkt-Highlights */
-        .product-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .product-tile {
-            background-color: #fff;
-            text-align: center;
-            padding: 60px 20px;
-            border-radius: 20px;
-        }
-        
-        .product-tile .headline {
-            font-size: 40px;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .product-tile .subheadline {
-            font-size: 21px;
-            margin: 10px 0 20px 0;
-        }
-
-        .product-tile img {
-            max-width: 80%;
-            height: auto;
-            margin-top: 20px;
-        }
-
-        /* Bestell-Seite */
-        .order-page {
-            display: none; /* Wird per JS angezeigt */
-            background-color: #fff;
-            padding: 60px 20px;
-            max-width: 980px;
-            margin: 40px auto;
-            border-radius: 20px;
-        }
-
-        .order-header {
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 30px;
-            margin-bottom: 40px;
-        }
-
-        .order-header h1 {
-            font-size: 40px;
-            margin: 0;
-        }
-
-        .config-section {
-            margin-bottom: 40px;
-        }
-        
-        .config-section h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .option-box-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        
-        .option-box {
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .option-box.selected {
-            border-color: #0071e3;
-            border-width: 2px;
-            box-shadow: 0 0 0 2px #0071e3;
-        }
-        .option-box:hover {
-            border-color: #888;
-        }
-
-        .option-box .model-name {
-            font-size: 17px;
-            font-weight: 600;
-        }
-        .option-box .model-desc {
-            font-size: 14px;
-            color: #86868b;
-        }
-        .option-box .price {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #555;
-        }
-
-        .final-price {
-            text-align: right;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid #ddd;
-        }
-
-        .final-price .total {
-            font-size: 32px;
-            font-weight: 700;
-        }
-        
-        .add-to-bag-button {
-            display: block;
-            width: 100%;
-            background-color: #0071e3;
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 12px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-        .add-to-bag-button:hover {
-            background-color: #0077ed;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: #f5f5f7;
-            color: #6e6e73;
-            font-size: 12px;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        
-        .footer-content {
-            max-width: 980px;
-            margin: 0 auto;
-        }
-
-        /* Responsivität */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none; /* Vereinfachte Navi für Mobile */
-            }
-            .hero-section .headline {
-                font-size: 36px;
-            }
-            .hero-section .subheadline {
-                font-size: 20px;
-            }
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
+    @media(max-width:980px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.checkout{grid-template-columns:1fr}.cart-drawer{left:12px;right:12px}}
+  </style>
 </head>
 <body>
-
-    <header class="nav-container">
-        <nav class="nav">
-            <div class="nav-logo">Nex</div>
-            <ul class="nav-links">
-                <li><a href="#home">Store</a></li>
-                <li><a href="#nexphone">NexPhone</a></li>
-                <li><a href="#nexpad">NexPad</a></li>
-                <li><a href="#">Support</a></li>
-            </ul>
-            <div class="nav-bag">Bag</div>
-        </nav>
+  <div class="wrap">
+    <header>
+      <div class="logo"><div class="brandbox">NX</div><div style="line-height:1"><div style="font-weight:800">NexShop</div><div style="font-size:12px;color:var(--muted)">Demo • Keine Fremdmarken</div></div></div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#products">Produkte</a>
+        <a href="#checkout">Bestellen</a>
+        <a href="#support">Support</a>
+        <button class="btn" id="open-checkout">Kasse</button>
+        <button class="btn ghost" id="view-cart-btn">Warenkorb (<span id="cart-count">0</span>)</button>
+      </nav>
     </header>
 
-    <main id="main-content">
+    <main>
+      <section id="home" class="hero">
+        <div>
+          <div class="pill">Neu • NexPhone 6</div>
+          <h2 style="margin-top:12px">Nex — moderne Geräte, faire Preise</h2>
+          <p class="muted">Kompakte Produktseiten, Warenkorb, Checkout und eine PDF-Rechnung, alles innerhalb einer HTML-Datei. Platzhaltergrafiken — rechtlich unbedenklich.</p>
 
-        <section class="hero-section" id="home">
-            <div class="eyebrow">NexPhone 6</div>
-            <h1 class="headline">Built for NexAI.</h1>
-            <h2 class="subheadline">Das leistungsstärkste Phone, das wir je entwickelt haben. Mit der Power von NexAI in deiner Hand.</h2>
-            <div class="tagline">Ab 1.199 €</div>
-            <div class="cta-links">
-                <a href="#" class="button" id="buy-button">Jetzt kaufen</a>
-                <a href="#nexphone">Mehr erfahren ></a>
+          <div style="display:flex;gap:18px;margin-top:14px">
+            <div>
+              <div style="font-size:12px;color:var(--muted)">NexPhone 6</div>
+              <div style="font-weight:800;font-size:20px">149,99 €</div>
             </div>
-            <div class="hero-image">
-                <img src="https://www.apple.com/v/iphone-15-pro/c/images/overview/design/design_hero__c7cacut4lbcm_large.jpg" alt="NexPhone 6 in edlem Design">
+            <div>
+              <div style="font-size:12px;color:var(--muted)">NexPad 8</div>
+              <div style="font-weight:800;font-size:20px">169,99 €</div>
             </div>
-        </section>
+          </div>
 
-        <div class="product-grid">
-            <div class="product-tile" id="nexphone">
-                <h2 class="headline">NexPhone 6 Plus</h2>
-                <p class="subheadline">Größer. Stärker. Länger.</p>
-                <div class="cta-links">
-                    <a href="#" class="button">Kaufen</a>
-                    <a href="#">Mehr erfahren ></a>
-                </div>
-                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692845702708" alt="NexPhone 6 Plus">
-            </div>
-            <div class="product-tile" id="nexpad">
-                <h2 class="headline">NexPad 6 Gen</h2>
-                <p class="subheadline">Dein mobiles Büro. Neu definiert.</p>
-                <div class="cta-links">
-                    <a href="#" class="button">Kaufen</a>
-                    <a href="#">Mehr erfahren ></a>
-                </div>
-                <img src="https://www.apple.com/v/ipad-pro/am/images/overview/design/design_display_hero__ddl0v34v7cyy_large.jpg" alt="NexPad 6 Gen">
-            </div>
+          <div style="margin-top:18px">
+            <button class="btn" id="shop-add-sample">NexPhone in Warenkorb</button>
+          </div>
         </div>
 
-        <section class="order-page" id="order-section">
-            <div class="order-header">
-                <h1>Kaufe dein NexPhone 6</h1>
-            </div>
+        <div style="display:flex;align-items:center;justify-content:center">
+          <!-- generischer SVG-Platzhalter (keine echten Produktbilder) -->
+          <svg width="320" height="220" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <rect width="320" height="220" rx="16" fill="#f6fbff"/>
+            <g transform="translate(24,24)" fill="#0f172a">
+              <rect x="0" y="0" width="80" height="160" rx="12" fill="#fff"/>
+              <rect x="110" y="0" width="180" height="160" rx="12" fill="#fff"/>
+            </g>
+          </svg>
+        </div>
+      </section>
 
-            <div class="config-section">
-                <h2>Wähle dein Modell.</h2>
-                <div class="option-box-container">
-                    <div class="option-box selected" data-price="1199">
-                        <div class="model-name">NexPhone 6</div>
-                        <div class="model-desc">6,1" Display</div>
-                        <div class="price">Ab 1.199 €</div>
-                    </div>
-                    <div class="option-box" data-price="1299">
-                        <div class="model-name">NexPhone 6 Plus</div>
-                        <div class="model-desc">6,7" Display</div>
-                        <div class="price">Ab 1.299 €</div>
-                    </div>
-                </div>
-            </div>
+      <section id="products" class="grid" style="margin-top:18px">
 
-            <div class="config-section">
-                <h2>Wähle deine Farbe.</h2>
-                 <div class="option-box-container">
-                    <div class="option-box selected" data-price="0">
-                        <div class="model-name">Titan Natur</div>
-                    </div>
-                    <div class="option-box" data-price="0">
-                        <div class="model-name">Titan Blau</div>
-                    </div>
-                     <div class="option-box" data-price="0">
-                        <div class="model-name">Titan Schwarz</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="config-section">
-                <h2>Wähle deinen Speicher.</h2>
-                 <div class="option-box-container">
-                    <div class="option-box selected" data-price="0">
-                        <div class="model-name">256 GB</div>
-                        <div class="price">Standard</div>
-                    </div>
-                    <div class="option-box" data-price="200">
-                        <div class="model-name">512 GB</div>
-                        <div class="price">+ 200 €</div>
-                    </div>
-                     <div class="option-box" data-price="400">
-                        <div class="model-name">1 TB</div>
-                        <div class="price">+ 400 €</div>
-                    </div>
-                </div>
-            </div>
+        <article class="card" data-id="nexphone-6" data-price="149.99">
+          <div class="thumb" aria-hidden>
+            <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="12" fill="#f3f9ff"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" fill="#2052a7">NexPhone 6</text></svg>
+          </div>
+          <div>
+            <p class="title">NexPhone 6</p>
+            <p class="desc">Kompakt, schnell und effizient.</p>
+            <div class="price">149,99 €</div>
+            <div style="margin-top:10px"><button class="btn" data-action="add">In den Warenkorb</button> <button class="btn ghost" data-action="details">Details</button></div>
+          </div>
+        </article>
 
-            <div class="final-price">
-                <div class="total" id="total-price">1.199 €</div>
-                <button class="add-to-bag-button">In den Warenkorb</button>
-            </div>
-        </section>
+        <article class="card" data-id="nexpad-8" data-price="169.99">
+          <div class="thumb" aria-hidden>
+            <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="12" fill="#f7fff6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" fill="#1a7a45">NexPad 8</text></svg>
+          </div>
+          <div>
+            <p class="title">NexPad 8</p>
+            <p class="desc">Leicht & leistungsfähig.</p>
+            <div class="price">169,99 €</div>
+            <div style="margin-top:10px"><button class="btn" data-action="add">In den Warenkorb</button> <button class="btn ghost" data-action="details">Details</button></div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Checkout + Rechnungs-Tools -->
+      <section id="checkout" class="checkout">
+        <form id="address-form" class="form" aria-label="Lieferadresse">
+          <h3>Lieferadresse</h3>
+          <div class="muted">Fülle die Pflichtfelder aus. (Demo: keine Datenübertragung)</div>
+          <label for="fname">Vorname *</label>
+          <input id="fname" name="fname" type="text" required />
+          <label for="lname">Nachname *</label>
+          <input id="lname" name="lname" type="text" required />
+          <label for="street">Straße, Nr. *</label>
+          <input id="street" name="street" type="text" required />
+          <label for="zip">PLZ *</label>
+          <input id="zip" name="zip" type="text" required />
+          <label for="city">Ort *</label>
+          <input id="city" name="city" type="text" required />
+          <label for="country">Land</label>
+          <select id="country" name="country"><option>Deutschland</option><option>Österreich</option><option>Schweiz</option><option>Andere</option></select>
+          <label for="email">E-Mail *</label>
+          <input id="email" name="email" type="email" required />
+
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button type="button" class="btn" id="place-order">Bestellung prüfen</button>
+            <button type="button" class="btn ghost" id="export-json">Exportiere Bestellung (JSON)</button>
+            <button type="button" class="btn ghost" id="clear-cart">Warenkorb leeren</button>
+          </div>
+
+          <div style="margin-top:10px;font-size:13px;color:var(--muted)">Hinweis: Diese Demo speichert Bestelldaten lokal im Browser (LocalStorage) und sendet nichts an Server.</div>
+        </form>
+
+        <aside class="summary">
+          <h3>Bestellübersicht</h3>
+          <div id="summary-items" style="margin-top:12px"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:12px"><div class="muted">Zwischensumme</div><div id="subtotal">0,00 €</div></div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px"><div class="muted">Lieferung</div><div id="shipping">3,99 €</div></div>
+          <div style="display:flex;justify-content:space-between;margin-top:12px;font-weight:800"><div>Gesamt</div><div id="grandtotal">0,00 €</div></div>
+
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="btn" id="download-invoice">Rechnung (PDF) herunterladen</button>
+            <button class="btn ghost" id="print-invoice">Rechnung drucken</button>
+          </div>
+
+          <div style="margin-top:12px;font-size:13px;color:var(--muted)">PDF-Abrechnung erzeugt eine einfache Rechnung mit den Bestelldaten (Client-seitig).</div>
+        </aside>
+      </section>
+
+      <section id="support" style="margin-top:18px">
+        <div class="form">
+          <h3>Support</h3>
+          <p class="muted">Demo-Formular — sendet nichts.</p>
+          <label for="msg">Nachricht</label>
+          <textarea id="msg" style="width:100%;height:80px;border-radius:8px;border:1px solid rgba(10,15,30,0.06);padding:10px"></textarea>
+          <div style="margin-top:10px"><button class="btn ghost">Absenden (Demo)</button></div>
+        </div>
+      </section>
 
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <p>
-                Die Preise beinhalten die Mehrwertsteuer und sonstige Preisbestandteile.
-            </p>
-            <p>
-                Copyright © 2024 Nex Inc. Alle Rechte vorbehalten.
-            </p>
-            <p>
-                Datenschutzrichtlinie | Nutzungsbedingungen | Verkauf und Rückerstattung | Impressum
-            </p>
-        </div>
-    </footer>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const buyButton = document.getElementById('buy-button');
-            const mainContent = document.getElementById('main-content');
-            const orderSection = document.getElementById('order-section');
-            const totalPriceElement = document.getElementById('total-price');
+    <footer>© 2025 Nex Inc. — Demo-Website. Keine fremden Marken oder Produktfotos verwendet.</footer>
+  </div>
 
-            // Funktion, um zur Bestellseite zu wechseln
-            buyButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                // Verstecke alle Sektionen im main-content
-                for (let child of mainContent.children) {
-                    if (child.id !== 'order-section') {
-                        child.style.display = 'none';
-                    }
-                }
-                // Zeige die Bestellseite
-                orderSection.style.display = 'block';
-                window.scrollTo(0, 0); // Nach oben scrollen
-                updateTotalPrice();
-            });
+  <!-- Cart Drawer -->
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+    <div style="padding:12px;border-bottom:1px solid rgba(10,15,30,0.04);display:flex;justify-content:space-between;align-items:center"><strong>Warenkorb</strong><button class="btn ghost" id="close-cart">Schließen</button></div>
+    <div id="cart-items" style="padding:12px;max-height:320px;overflow:auto"></div>
+    <div style="padding:12px;border-top:1px solid rgba(10,15,30,0.04);display:flex;justify-content:space-between;align-items:center"><div class="muted">Zwischensumme</div><div id="mini-sub">0,00 €</div></div>
+    <div style="padding:12px;display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="goto-checkout">Zur Kasse</button><button class="btn ghost" id="cart-clear">Leeren</button></div>
+  </aside>
 
-            // Funktion, um Preis zu aktualisieren
-            function updateTotalPrice() {
-                let total = 0;
-                const selectedOptions = document.querySelectorAll('.option-box.selected');
-                selectedOptions.forEach(option => {
-                    total += parseInt(option.dataset.price);
-                });
-                totalPriceElement.textContent = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(total);
-            }
+  <!-- jsPDF via CDN (für PDF-Generierung) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-LJwG7j7cQb2s6+OQ0rQ3z1xq6p4hFJZk7Z8Q5u6w8xq3a1P8xZQe7YlG9t2s0K1k3R+6Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-            // Klick-Events für alle Konfigurations-Optionen
-            const optionBoxes = document.querySelectorAll('.option-box');
-            optionBoxes.forEach(box => {
-                box.addEventListener('click', () => {
-                    // Deselektiere alle Geschwister-Elemente
-                    const container = box.parentElement;
-                    container.querySelectorAll('.option-box').forEach(sibling => {
-                        sibling.classList.remove('selected');
-                    });
-                    // Selektiere das geklickte Element
-                    box.classList.add('selected');
-                    updateTotalPrice();
-                });
-            });
+  <script>
+    // Utilities
+    const fmt = v => new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(v);
 
-        });
-    </script>
+    const PRODUCTS = [
+      {id:'nexphone-6', name:'NexPhone 6', price:149.99},
+      {id:'nexpad-8', name:'NexPad 8', price:169.99}
+    ];
+    const CART_KEY = 'nexshop_cart_v1';
+    const SHIPPING = 3.99;
 
-</body>
-</html>
+    function loadCart(){try{const r=localStorage.getItem(CART_KEY);return r?JSON.parse(r):[]}catch(e){return[]}}
+    function saveCart(c){localStorage.setItem(CART_KEY,JSON.stringify(c));renderAll()}
+    function cartAdd(id,qty=1){const c=loadCart();const it=c.find(x=>x.id===id);if(it)it.qty+=qty;else c.push({id,qty});saveCart(c)}
+    function cartRemove(id){let c=loadCart();c=c.filter(x=>x.id!==id);saveCart(c)}
+    function cartClear(){localStorage.removeItem(CART_KEY);renderAll()}
+
+    function cartSummary(){const c=loadCart();let subtotal=0;const items=c.map(i=>{const p=PRODUCTS.find(x=>x.id===i.id);const line=p.price*i.qty;subtotal+=line;return{...p,qty:i.qty,lineTotal:line}});return{items,subtotal,shipping:items.length?SHIPPING:0,total:subtotal + (items.length?SHIPPING:0)}}
+
+    // Render functions
+    function renderAll(){
+      const s=cartSummary();
+      document.getElementById('cart-count').textContent = s.items.reduce((a,b)=>a+b.qty,0);
+      document.getElementById('mini-sub').textContent = fmt(s.subtotal);
+      document.getElementById('subtotal').textContent = fmt(s.subtotal);
+      document.getElementById('shipping').textContent = s.items.length?fmt(s.shipping):fmt(0);
+      document.getElementById('grandtotal').textContent = fmt(s.total);
+
+      // Drawer
+      const drawer=document.getElementById('cart-items');drawer.innerHTML='';
+      s.items.forEach(it=>{
+        const el=document.createElement('div');el.style.display='flex';el.style.justifyContent='space-between';el.style.padding='6px 0';el.style.alignItems='center';
+        el.innerHTML=`<div><strong>${it.name}</strong><div class='muted' style='font-size:12px'>${it.qty} × ${fmt(it.price)}</div></div><div style='font-weight:800'>${fmt(it.lineTotal)}</div>`;
+        el.addEventListener('click',()=>{if(confirm('Artikel entfernen?')){cartRemove(it.id)}});
+        drawer.appendChild(el);
+      });
+
+      // Summary items
+      const summ=document.getElementById('summary-items');summ.innerHTML='';
+      s.items.forEach(it=>{const r=document.createElement('div');r.style.display='flex';r.style.justifyContent='space-between';r.style.marginTop='8px';r.innerHTML=`<div>${it.name} <span class='muted'>×${it.qty}</span></div><div>${fmt(it.lineTotal)}</div>`;summ.appendChild(r)});
+    }
+
+    // Add event listeners
+    document.querySelectorAll('[data-action="add"]').forEach(btn=>btn.addEventListener('click',e=>{const card=e.target.closest('.card');cartAdd(card.dataset.id,1);}));
+    document.getElementById('shop-add-sample').addEventListener('click',()=>{cartAdd('nexphone-6',1)});
+    document.getElementById('view-cart-btn').addEventListener('click',()=>{document.getElementById('cart-drawer').classList.toggle('open')});
+    document.getElementById('close-cart').addEventListener('click',()=>{document.getElementById('cart-drawer').classList.remove('open')});
+    document.getElementById('goto-checkout').addEventListener('click',()=>{document.getElementById('cart-drawer').classList.remove('open');location.hash='checkout';window.scrollTo({top:700,behavior:'smooth'})});
+    document.getElementById('cart-clear').addEventListener('click',cartClear);
+    document.getElementById('clear-cart').addEventListener('click',cartClear);
+    document.getElementById('open-checkout').addEventListener('click',()=>{location.hash='checkout';window.scrollTo({top:700,behavior:'smooth'})});
+
+    // Order check -> show alert summary
+    document.getElementById('place-order').addEventListener('click',()=>{
+      const form=document.getElementById('address-form');if(!form.reportValidity())return;
+      const s=cartSummary();if(s.items.length===0){alert('Warenkorb leer.');return}
+      const data=collectOrderData();
+      // show summary modal (simple alert in demo)
+      let txt = `Bestellübersicht:\n\nKunde: ${data.address.fname} ${data.address.lname}\nAdresse: ${data.address.street}, ${data.address.zip} ${data.address.city}\nE-Mail: ${data.address.email}\n\nArtikel:\n`;
+      txt += data.order.items.map(i=>` - ${i.name} ×${i.qty}: ${fmt(i.lineTotal)}`).join('\n');
+      txt += `\n\nZwischensumme: ${fmt(data.order.subtotal)}\nLieferung: ${fmt(data.order.shipping)}\nGESAMT: ${fmt(data.order.total)}`;
+      if(confirm(txt + '\n\nRechnung als PDF erzeugen?')){
+        generateInvoicePdf(data);
+      }
+    });
+
+    // Export JSON
+    function collectOrderData(){const f=document.getElementById('address-form');const s=cartSummary();return{address:{fname:f.fname.value,lname:f.lname.value,street:f.street.value,zip:f.zip.value,city:f.city.value,country:f.country.value,email:f.email.value},order:s,createdAt:new Date().toISOString(),orderId:`NX-${Date.now()}`}};
+    document.getElementById('export-json').addEventListener('click',()=>{
+      const s=cartSummary();if(!s.items.length){alert('Warenkorb leer.');return}
+      if(!document.getElementById('address-form').reportValidity())return;
+      const data = collectOrderData();
+      const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+      const url = URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`order-${data.orderId}.json`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+    });
+
+    // PDF / Print: using jsPDF
+    async function generateInvoicePdf(data){
+      try{
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({unit:'pt',format:'a4'});
+        const left = 40; let y = 40;
+        doc.setFontSize(18);doc.text('NexShop — Rechnung', left, y);y+=26;
+        doc.setFontSize(11);doc.text(`Rechnungsnummer: ${data.orderId}`, left, y);doc.text(`Datum: ${new Date(data.createdAt).toLocaleString('de-DE')}`, 350, y);y+=18;
+        doc.text('Rechnung an:', left, y);y+=14;doc.setFontSize(12);
+        doc.text(`${data.address.fname} ${data.address.lname}`, left, y);y+=14;doc.text(`${data.address.street}`, left, y);y+=14;doc.text(`${data.address.zip} ${data.address.city}`, left, y);y+=22;
+
+        // table h
