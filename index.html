@@ -251,10 +251,24 @@
       const s=cartSummary();if(s.items.length===0){alert('Warenkorb leer.');return}
       const data=collectOrderData();
       // show summary modal (simple alert in demo)
-      let txt = `Bestellübersicht:\n\nKunde: ${data.address.fname} ${data.address.lname}\nAdresse: ${data.address.street}, ${data.address.zip} ${data.address.city}\nE-Mail: ${data.address.email}\n\nArtikel:\n`;
-      txt += data.order.items.map(i=>` - ${i.name} ×${i.qty}: ${fmt(i.lineTotal)}`).join('\n');
-      txt += `\n\nZwischensumme: ${fmt(data.order.subtotal)}\nLieferung: ${fmt(data.order.shipping)}\nGESAMT: ${fmt(data.order.total)}`;
-      if(confirm(txt + '\n\nRechnung als PDF erzeugen?')){
+      let txt = `Bestellübersicht:
+
+Kunde: ${data.address.fname} ${data.address.lname}
+Adresse: ${data.address.street}, ${data.address.zip} ${data.address.city}
+E-Mail: ${data.address.email}
+
+Artikel:
+`;
+      txt += data.order.items.map(i=>` - ${i.name} ×${i.qty}: ${fmt(i.lineTotal)}`).join('
+');
+      txt += `
+
+Zwischensumme: ${fmt(data.order.subtotal)}
+Lieferung: ${fmt(data.order.shipping)}
+GESAMT: ${fmt(data.order.total)}`;
+      if(confirm(txt + '
+
+Rechnung als PDF erzeugen?')){
         generateInvoicePdf(data);
       }
     });
@@ -280,4 +294,41 @@
         doc.text('Rechnung an:', left, y);y+=14;doc.setFontSize(12);
         doc.text(`${data.address.fname} ${data.address.lname}`, left, y);y+=14;doc.text(`${data.address.street}`, left, y);y+=14;doc.text(`${data.address.zip} ${data.address.city}`, left, y);y+=22;
 
-        // table h
+        // table header
+        doc.setFontSize(11);doc.text('Artikel', left, y);doc.text('Anzahl', 360, y);doc.text('Betrag', 460, y);y+=10;doc.setLineWidth(0.5);doc.line(left, y, 550, y);y+=12;
+        data.order.items.forEach(it=>{
+          doc.text(it.name, left, y);doc.text(String(it.qty), 360, y);doc.text(fmt(it.lineTotal), 460, y);y+=16;
+        });
+        y+=8;doc.line(left, y, 550, y);y+=16;doc.text('Zwischensumme', 360, y);doc.text(fmt(data.order.subtotal), 460, y);y+=14;doc.text('Lieferung', 360, y);doc.text(fmt(data.order.shipping), 460, y);y+=18;doc.setFontSize(13);doc.text('Gesamt', 360, y);doc.text(fmt(data.order.total), 460, y);
+
+        // Footer
+        doc.setFontSize(10);doc.text('Dies ist eine automatisch erzeugte Demo-Rechnung. Keine MwSt-Ausweisung (Beispiel).', left, 770);
+
+        // Trigger download
+        const filename = `rechnung-${data.orderId}.pdf`;
+        doc.save(filename);
+      }catch(err){console.error(err);alert('PDF-Generierung fehlgeschlagen: ' + err.message)}
+    }
+
+    // Download invoice button: collect then generate
+    document.getElementById('download-invoice').addEventListener('click',()=>{
+      const s=cartSummary();if(s.items.length===0){alert('Warenkorb leer.');return}
+      if(!document.getElementById('address-form').reportValidity())return;
+      const data = collectOrderData();generateInvoicePdf(data);
+    });
+
+    document.getElementById('print-invoice').addEventListener('click',async ()=>{
+      const s=cartSummary();if(s.items.length===0){alert('Warenkorb leer.');return}
+      if(!document.getElementById('address-form').reportValidity())return;
+      const data = collectOrderData();
+      // Simple print: open a new window with HTML invoice
+      const popup = window.open('', '_blank', 'width=800,height=900');
+      const html = `<!doctype html><html><head><meta charset=\"utf-8\"><title>Rechnung ${data.orderId}</title><style>body{font-family:Arial,sans-serif;padding:24px}h1{font-size:18px}</style></head><body><h1>NexShop — Rechnung</h1><div>Rechnungsnummer: ${data.orderId}</div><div>Datum: ${new Date(data.createdAt).toLocaleString('de-DE')}</div><hr><h3>Rechnung an:</h3><div>${data.address.fname} ${data.address.lname}</div><div>${data.address.street}</div><div>${data.address.zip} ${data.address.city}</div><hr><h3>Artikel</h3>${data.order.items.map(i=>`<div>${i.name} × ${i.qty} — ${fmt(i.lineTotal)}</div>`).join('')}<hr><div>Zwischensumme: ${fmt(data.order.subtotal)}</div><div>Lieferung: ${fmt(data.order.shipping)}</div><h3>Gesamt: ${fmt(data.order.total)}</h3></body></html>`;
+      popup.document.write(html);popup.document.close();popup.focus();popup.print();
+    });
+
+    // initial render
+    renderAll();
+  </script>
+</body>
+</html>
