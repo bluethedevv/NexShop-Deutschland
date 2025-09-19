@@ -3,632 +3,657 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Nex Store — Konfigurator & Warenkorb</title>
+<title>Nex Store — Konfigurator</title>
 <link rel="icon" href="data:," />
 <style>
-:root{
-  --accent:#0071e3; --muted:#86868b; --bg:#f5f5f7; --card:#fff;
-}
-html,body{height:100%;margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#111}
-.nav-container{background:rgba(255,255,255,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid #ddd;position:sticky;top:0;z-index:1100}
-.nav{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:12px 18px}
-.nav-left{display:flex;align-items:center;gap:18px}
-.nav-logo{font-weight:700}
-.nav-links{display:flex;gap:14px;list-style:none;padding:0;margin:0}
-.nav-links a{color:inherit;text-decoration:none;font-size:14px}
-.nav-right{display:flex;align-items:center;gap:12px}
-.nav-bag{cursor:pointer;position:relative;padding:8px 12px;border-radius:10px}
-.bag-count{position:absolute;right:6px;top:4px;background:var(--accent);color:#fff;font-size:11px;border-radius:999px;padding:2px 6px;display:none}
-
-/* hero */
-.hero-section{text-align:center;padding:72px 20px;background:var(--card);margin-bottom:12px}
-.eyebrow{color:#bf4800;font-weight:600}
-.headline{font-size:40px;margin:6px 0}
-.subheadline{color:var(--muted);max-width:720px;margin:6px auto}
-
-/* grid */
-.product-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:20px}
-.product-tile{background:var(--card);padding:22px;border-radius:14px;text-align:center;box-shadow:0 6px 18px rgba(16,24,40,0.03)}
-.product-tile h3{margin:6px 0}
-.product-tile p{margin:6px 0;color:var(--muted)}
-.price-tag{font-weight:700;margin-top:6px}
-
-/* sections */
-.section{max-width:1100px;margin:18px auto;padding:0 20px}
-
-/* product detail (config page) */
-.product-page{display:none;background:var(--card);border-radius:12px;padding:20px;box-shadow:0 30px 60px rgba(16,24,40,0.06);margin:18px auto}
-.product-grid-panel{display:grid;grid-template-columns:360px 1fr;gap:18px}
-.preview{background:#fff;border-radius:12px;padding:16px;text-align:center}
-.color-swatches{display:flex;gap:8px;justify-content:center;margin-top:10px}
-.swatch{width:34px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);cursor:pointer}
-.option-box{border:1px solid #ddd;padding:10px;border-radius:10px;cursor:pointer}
-.option-box.selected{border-color:var(--accent);box-shadow:0 6px 18px rgba(0,113,227,0.05)}
-.option-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
-.price-area{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #eee;margin-top:12px}
-
-/* actions */
-.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
-.btn{background:var(--accent);color:#fff;padding:10px 16px;border-radius:999px;text-decoration:none;border:none;cursor:pointer;font-weight:600}
-.btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(0,113,227,0.08)}
-.small-muted{color:var(--muted);font-size:13px}
-
-/* cart drawer */
-.cart-drawer{position:fixed;right:18px;top:70px;width:360px;background:var(--card);border-radius:12px;padding:14px;box-shadow:0 25px 60px rgba(16,24,40,0.16);display:none;z-index:1250}
-.cart-item{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #f2f2f2}
-.cart-total{display:flex;justify-content:space-between;padding-top:12px;font-weight:700}
-.cart-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-
-/* checkout modal */
-.modal{position:fixed;inset:0;background:rgba(10,12,15,0.45);display:none;align-items:center;justify-content:center;z-index:1400}
-.modal-card{background:var(--card);padding:18px;border-radius:12px;width:100%;max-width:680px}
-
-/* responsive */
-@media (max-width:900px){ .product-grid-panel{grid-template-columns:1fr} .cart-drawer{right:12px;left:12px;width:auto} .product-page{margin:12px} }
+    /* === Basis-Stil (bleibt nah am Original) === */
+    :root{
+        --accent:#0071e3;
+        --muted:#86868b;
+        --bg:#f5f5f7;
+        --card:#fff;
+    }
+    html,body{height:100%;margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#1d1d1f}
+    .nav-container{background:rgba(255,255,255,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #ddd;position:sticky;top:0;z-index:1100}
+    .nav{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:10px 20px}
+    .nav-logo{font-weight:700}
+    .nav-links{display:flex;gap:18px;list-style:none;padding:0;margin:0}
+    .nav-links a{color:inherit;text-decoration:none;font-size:14px}
+    .nav-bag{cursor:pointer;position:relative;padding:8px 12px;border-radius:10px}
+    .bag-count{position:absolute;right:6px;top:4px;background:var(--accent);color:#fff;font-size:11px;border-radius:999px;padding:2px 6px}
+    /* hero */
+    .hero-section{text-align:center;padding:80px 20px;background:var(--card);margin-bottom:18px}
+    .hero-section .headline{font-size:46px;margin:6px 0}
+    .hero-section .subheadline{font-size:20px;color:var(--muted);max-width:700px;margin:0 auto}
+    .cta{margin-top:18px}
+    .btn{background:var(--accent);color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none;display:inline-block;font-weight:600}
+    .btn.secondary{background:transparent;color:var(--accent);border:1px solid transparent}
+    /* product grid */
+    .product-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;padding:20px}
+    .product-tile{background:var(--card);padding:28px;border-radius:16px;text-align:center;box-shadow:0 6px 18px rgba(16,24,40,0.03)}
+    .product-tile h3{margin:6px 0;font-size:20px}
+    .product-tile p{margin:6px 0;color:var(--muted)}
+    .price-tag{font-weight:700;margin-top:8px}
+    /* configurator panel */
+    .overlay{position:fixed;inset:0;background:rgba(10,12,15,0.45);display:none;align-items:flex-start;justify-content:center;padding:28px;z-index:1200}
+    .panel{background:var(--card);width:100%;max-width:1000px;border-radius:14px;padding:20px;box-shadow:0 30px 60px rgba(16,24,40,0.3);overflow:auto;max-height:90vh}
+    .panel-grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
+    .preview{background:#fff;border-radius:12px;padding:16px;text-align:center}
+    .config-section{margin-bottom:18px}
+    .config-section h4{margin:0 0 8px 0}
+    .option-box-container{display:grid;gap:10px}
+    .option-box{border:1px solid #ddd;padding:10px;border-radius:10px;cursor:pointer}
+    .option-box.selected{border-color:var(--accent);box-shadow:0 6px 18px rgba(0,113,227,0.06)}
+    .color-swatches{display:flex;gap:8px;justify-content:center;margin-top:8px}
+    .swatch{width:34px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);cursor:pointer;outline-offset:3px}
+    .price-box{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #eee;margin-top:12px}
+    .muted{color:var(--muted);font-size:13px}
+    .actions{display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-top:12px}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(0,113,227,0.08);padding:8px 14px}
+    /* cart drawer */
+    .cart-drawer{position:fixed;right:20px;top:70px;width:360px;background:var(--card);border-radius:12px;padding:14px;box-shadow:0 25px 60px rgba(16,24,40,0.25);display:none;z-index:1250}
+    .cart-item{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0}
+    .cart-item:last-child{border-bottom:0}
+    .cart-total{display:flex;justify-content:space-between;padding-top:12px;font-weight:700}
+    .small-muted{font-size:12px;color:var(--muted)}
+    /* responsive */
+    @media (max-width:900px){ .panel-grid{grid-template-columns:1fr} .cart-drawer{right:10px;left:10px;width:auto} }
 </style>
 </head>
 <body>
 
 <header class="nav-container">
-  <div class="nav">
-    <div class="nav-left">
-      <div class="nav-logo" onclick="showHome()" style="cursor:pointer">Nex</div>
-      <ul class="nav-links">
-        <li><a href="#" onclick="showHome();return false">Store</a></li>
-      </ul>
+    <div class="nav">
+        <div style="display:flex;gap:18px;align-items:center">
+            <div class="nav-logo">Nex</div>
+            <ul class="nav-links">
+                <li><a href="#home">Store</a></li>
+                <li><a href="#nexphone">NexPhone</a></li>
+                <li><a href="#nexpad">NexPad</a></li>
+            </ul>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px">
+            <div id="nav-bag" class="nav-bag" title="Warenkorb">Bag <span id="bag-count" class="bag-count" style="display:none">0</span></div>
+        </div>
     </div>
-    <div class="nav-right">
-      <div id="nav-bag" class="nav-bag" title="Warenkorb" onclick="toggleCart()">
-        Bag <span id="bag-count" class="bag-count">0</span>
-      </div>
-    </div>
-  </div>
 </header>
 
 <main>
-  <!-- HOME -->
-  <section id="home" class="section">
-    <div class="hero-section">
-      <div class="eyebrow">Die Nex Kollektion</div>
-      <h1 class="headline">Built for NexAI.</h1>
-      <p class="subheadline">Wähle ein Gerät, konfiguriere es auf seiner Seite — Farben, Speicher, Extras. Alles Live.</p>
-    </div>
+    <section id="home" class="hero-section">
+        <div class="eyebrow">Die Nex Kollektion</div>
+        <h1 class="headline">Built for NexAI.</h1>
+        <p class="subheadline">Konfiguriere wie im Store — Farben, Speicher, Extras. Alles live sichtbar.</p>
+        <div class="cta">
+            <a class="btn" href="#catalog" onclick="document.getElementById('catalog').scrollIntoView()">Zum Store</a>
+        </div>
+    </section>
 
     <section id="catalog" class="product-grid">
-      <!-- NexPhone 6 -->
-      <article class="product-tile">
-        <h3>NexPhone 6</h3>
-        <p class="small-muted">Kompakt. Leistungsfähig. (Vorbestellung)</p>
-        <div class="price-tag" id="tile-price-nexphone-6"></div>
-        <div style="margin-top:12px">
-          <button class="btn" onclick="openProduct('nexphone-6')">Konfigurieren</button>
-        </div>
-      </article>
+        <!-- Produkt-Kacheln -->
+        <!-- NexPhone 6 (Vorbestellung +20€) -->
+        <article class="product-tile" id="tile-nexphone-6">
+            <h3>NexPhone 6</h3>
+            <p class="muted">Kompakt. Leistungsfähig. Smart. (Vorbestellung)</p>
+            <div class="price-tag" id="price-nexphone-6">Ab 169,99 €</div>
+            <div style="margin-top:14px">
+                <a class="btn" data-product="nexphone-6" href="#" onclick="return false">Konfigurieren</a>
+            </div>
+        </article>
 
-      <!-- NexPhone 6 Plus -->
-      <article class="product-tile">
-        <h3>NexPhone 6 Plus</h3>
-        <p class="small-muted">Größeres Display. (Vorbestellung)</p>
-        <div class="price-tag" id="tile-price-nexphone-6-plus"></div>
-        <div style="margin-top:12px">
-          <button class="btn" onclick="openProduct('nexphone-6-plus')">Konfigurieren</button>
-        </div>
-      </article>
+        <!-- NexPhone 6 Plus (Vorbestellung +20€) -->
+        <article class="product-tile" id="tile-nexphone-6-plus">
+            <h3>NexPhone 6 Plus</h3>
+            <p class="muted">Größeres Display. (Vorbestellung)</p>
+            <div class="price-tag" id="price-nexphone-6-plus">Ab 219,99 €</div>
+            <div style="margin-top:14px">
+                <a class="btn" data-product="nexphone-6-plus" href="#" onclick="return false">Konfigurieren</a>
+            </div>
+        </article>
 
-      <!-- NexPad 8 -->
-      <article class="product-tile">
-        <h3>NexPad 8</h3>
-        <p class="small-muted">Mobiles Büro — NexPen kostenlos, Keyboard optional.</p>
-        <div class="price-tag" id="tile-price-nexpad-8"></div>
-        <div style="margin-top:12px">
-          <button class="btn" onclick="openProduct('nexpad-8')">Konfigurieren</button>
-        </div>
-      </article>
+        <!-- NexPad 8 -->
+        <article class="product-tile" id="tile-nexpad-8">
+            <h3>NexPad 8</h3>
+            <p class="muted">Dein mobiles Büro. NexPen kostenlos, Keyboard optional.</p>
+            <div class="price-tag" id="price-nexpad-8">Ab 169,99 €</div>
+            <div style="margin-top:14px">
+                <a class="btn" data-product="nexpad-8" href="#" onclick="return false">Konfigurieren</a>
+            </div>
+        </article>
 
-      <!-- NexPhone Mini 8 -->
-      <article class="product-tile">
-        <h3>NexPhone Mini 8</h3>
-        <p class="small-muted">Klein & günstig.</p>
-        <div class="price-tag" id="tile-price-nexphone-mini-8"></div>
-        <div style="margin-top:12px">
-          <button class="btn" onclick="openProduct('nexphone-mini-8')">Konfigurieren</button>
-        </div>
-      </article>
+        <!-- NexPhone Mini 8 -->
+        <article class="product-tile" id="tile-nexphone-mini-8">
+            <h3>NexPhone Mini 8</h3>
+            <p class="muted">Klein. Preiswert. Schnell.</p>
+            <div class="price-tag" id="price-nexphone-mini-8">Ab 89,99 €</div>
+            <div style="margin-top:14px">
+                <a class="btn" data-product="nexphone-mini-8" href="#" onclick="return false">Konfigurieren</a>
+            </div>
+        </article>
     </section>
-  </section>
-
-  <!-- PRODUCT DETAIL / CONFIGURATOR (separate section per product, shown via JS) -->
-  <section id="product-page" class="product-page section">
-    <button class="btn ghost" onclick="backToCatalog()">Zurück</button>
-    <div style="height:12px"></div>
-    <div class="product-grid-panel">
-      <div>
-        <div class="preview" id="preview-area">
-          <!-- SVG preview injected here -->
-        </div>
-
-        <div style="margin-top:12px">
-          <div class="small-muted">Farben</div>
-          <div class="color-swatches" id="color-swatches"></div>
-        </div>
-
-        <div style="margin-top:12px" id="extras-area"></div>
-      </div>
-
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div id="product-title" style="font-weight:700;font-size:20px"></div>
-            <div class="small-muted" id="product-note"></div>
-          </div>
-          <div id="preorder-badge" class="small-muted" style="font-weight:700"></div>
-        </div>
-
-        <div style="height:12px"></div>
-        <div>
-          <div style="font-weight:700">Speicher</div>
-          <div style="height:8px"></div>
-          <div class="option-grid" id="storage-grid"></div>
-        </div>
-
-        <div style="height:12px"></div>
-        <div>
-          <div style="font-weight:700">Versand</div>
-          <div class="small-muted" style="margin-top:6px">Standardversand</div>
-        </div>
-
-        <div class="price-area">
-          <div class="small-muted">Gesamtpreis</div>
-          <div style="font-weight:800;font-size:18px" id="config-price">0,00 €</div>
-        </div>
-
-        <div class="actions">
-          <button id="btn-add-to-bag" class="btn">In die Tasche</button>
-          <button id="btn-buy-now" class="btn ghost">Jetzt kaufen</button>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
-<!-- CART DRAWER -->
+<!-- Overlay / Konfigurations-Panel -->
+<div id="overlay" class="overlay" role="dialog" aria-modal="true">
+    <div class="panel" role="document">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <h2 id="panel-title">Konfigurator</h2>
+            <div style="display:flex;gap:8px;align-items:center">
+                <button id="close-panel" class="btn ghost">Schließen</button>
+            </div>
+        </div>
+
+        <div class="panel-grid">
+            <div>
+                <div class="preview" id="preview-column">
+                    <!-- dynamisch: SVG Vorschau -->
+                    <div id="preview-svg" style="min-height:220px;display:flex;align-items:center;justify-content:center"></div>
+
+                    <div style="margin-top:12px">
+                        <div class="muted">Farben</div>
+                        <div class="color-swatches" id="color-swatches"></div>
+                    </div>
+
+                    <div style="margin-top:12px" id="extras-area"></div>
+                </div>
+            </div>
+
+            <div>
+                <div class="config-section">
+                    <h4>Modell</h4>
+                    <div id="model-name" style="font-weight:700"></div>
+                    <div class="small-muted" id="model-note" style="margin-top:6px"></div>
+                </div>
+
+                <div class="config-section">
+                    <h4>Speicher</h4>
+                    <div class="option-box-container" id="storage-options"></div>
+                </div>
+
+                <div class="config-section">
+                    <h4>Zahlung & Versand</h4>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <div class="option-box selected" style="min-width:120px">Standardversand</div>
+                        <div class="option-box" style="min-width:120px">Express</div>
+                    </div>
+                </div>
+
+                <div class="price-box">
+                    <div>
+                        <div class="muted">Preis</div>
+                        <div id="price-display" style="font-size:20px;font-weight:700">0,00 €</div>
+                        <div class="small-muted" id="preorder-label"></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="add-to-cart" class="btn">In den Warenkorb</button>
+                    <button id="buy-now" class="btn ghost">Jetzt kaufen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cart Drawer -->
 <div id="cart-drawer" class="cart-drawer" aria-hidden="true">
-  <h4>Warenkorb</h4>
-  <div id="cart-items" style="margin-top:8px"></div>
-  <div class="cart-total" style="margin-top:12px">
-    <div>Zwischensumme</div>
-    <div id="cart-subtotal">0,00 €</div>
-  </div>
-  <div class="cart-actions">
-    <button class="btn ghost" onclick="closeCart()">Schließen</button>
-    <button class="btn" onclick="openCheckout()">Zur Kasse</button>
-  </div>
-</div>
-
-<!-- CHECKOUT MODAL (simulierte Zahlung) -->
-<div id="checkout-modal" class="modal" role="dialog" aria-modal="true">
-  <div class="modal-card">
-    <h3>Checkout — Simulierte Zahlung</h3>
-    <div style="margin-top:8px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <input id="cust-first" placeholder="Vorname" />
-        <input id="cust-last" placeholder="Nachname" />
-        <input id="cust-street" placeholder="Straße, Nr." style="grid-column:1 / -1" />
-        <input id="cust-zip" placeholder="PLZ" />
-        <input id="cust-city" placeholder="Ort" />
-        <input id="cust-email" placeholder="E-Mail" style="grid-column:1 / -1" />
-      </div>
-
-      <div style="height:12px"></div>
-      <div style="font-weight:700">Zahlungsdaten (simuliert)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-        <input id="card-number" placeholder="Kartennr. (16 Ziffern)" maxlength="19" />
-        <input id="card-exp" placeholder="MM/YY" />
-        <input id="card-cvc" placeholder="CVC" />
-        <div></div>
-      </div>
-
-      <div style="height:12px"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div class="small-muted">Gesamt:</div>
-        <div style="font-weight:800" id="checkout-total">0,00 €</div>
-      </div>
-
-      <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn ghost" onclick="closeCheckout()">Abbrechen</button>
-        <button class="btn" onclick="simulatePayment()">Zahlung simulieren</button>
-      </div>
+    <h4>Warenkorb</h4>
+    <div id="cart-items" style="margin-top:8px"></div>
+    <div class="cart-total" style="margin-top:12px">
+        <div>Zwischensumme</div>
+        <div id="cart-subtotal">0,00 €</div>
     </div>
-  </div>
-</div>
-
-<!-- SUCCESS MODAL -->
-<div id="success-modal" class="modal" role="dialog" aria-modal="true">
-  <div class="modal-card" style="text-align:center">
-    <h3>Zahlung erfolgreich ✅</h3>
-    <p id="success-msg">Vielen Dank für deine Bestellung.</p>
-    <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
-      <button class="btn" onclick="closeSuccess()">OK</button>
+    <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+        <button id="cart-close" class="btn ghost">Schließen</button>
+        <button id="checkout" class="btn">Zur Kasse</button>
     </div>
-  </div>
 </div>
 
-<!-- jsPDF for invoice -->
+<!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
-/* =========================
-   Product data
-   ========================= */
+/* ===========================
+   Produkt-Daten & Logik
+   =========================== */
+
 const PRODUCTS = {
-  "nexphone-6": {
-    id:"nexphone-6", label:"NexPhone 6", base:149.99, preorder:true,
-    storages:[ {size:256,delta:0} ],
-    colors:[ {name:"Natur", phone:"#e6eefc"}, {name:"Blau", phone:"#cfe6ff"}, {name:"Schwarz", phone:"#2b2b2b"} ],
-    type:"phone", note:"Vorbestellung — +20 €"
-  },
-  "nexphone-6-plus": {
-    id:"nexphone-6-plus", label:"NexPhone 6 Plus", base:199.99, preorder:true,
-    storages:[ {size:256,delta:0}, {size:512,delta:50} ],
-    colors:[ {name:"Natur", phone:"#eef6ff"}, {name:"Graphit", phone:"#2b2b2b"} ],
-    type:"phone", note:"Vorbestellung — +20 €"
-  },
-  "nexpad-8": {
-    id:"nexpad-8", label:"NexPad 8", base:169.99, preorder:false,
-    storages:[ {size:256,delta:0}, {size:512,delta:50}, {size:1024,delta:100} ],
-    colors:[ {name:"Weiss", phone:"#f6fff7"}, {name:"Stahl", phone:"#eef7ff"}, {name:"Schwarz", phone:"#e9e9e9"} ],
-    extras:{ pen:{label:"NexPen (kostenlos)", price:0}, keyboard:{label:"Keyboard", price:89.99} },
-    type:"pad", note:"NexPen kostenlos. Keyboard optional +89,99 €"
-  },
-  "nexphone-mini-8": {
-    id:"nexphone-mini-8", label:"NexPhone Mini 8", base:89.99, preorder:false,
-    storages:[ {size:128,delta:0}, {size:256,delta:21} ],
-    colors:[ {name:"Weiss", phone:"#f2f9ff"}, {name:"Mint", phone:"#eafff3"} ],
-    type:"phone", note:"Klein & günstig"
-  }
+    "nexphone-6": {
+        id: "nexphone-6",
+        label: "NexPhone 6",
+        note: "Vorbestellung — +20 €",
+        base: 149.99, // original base; preorder adds +20 in display
+        preorder: true,
+        storages: [{size:256, delta:0}],
+        colors: [
+            {name:"Natur", phone:"#e6eefc", pad:"#f6fff7"},
+            {name:"Blau", phone:"#cfe6ff", pad:"#dff2ff"},
+            {name:"Schwarz", phone:"#2b2b2b", pad:"#cfcfcf"}
+        ],
+        type:"phone"
+    },
+    "nexphone-6-plus": {
+        id: "nexphone-6-plus",
+        label: "NexPhone 6 Plus",
+        note: "Vorbestellung — +20 €",
+        base: 199.99,
+        preorder: true,
+        storages: [{size:256, delta:0},{size:512, delta:50}],
+        colors: [
+            {name:"Natur", phone:"#eef6ff", pad:"#f6fff7"},
+            {name:"Graphit", phone:"#2b2b2b", pad:"#cfcfcf"}
+        ],
+        type:"phone"
+    },
+    "nexpad-8": {
+        id: "nexpad-8",
+        label: "NexPad 8",
+        note: "NexPen kostenlos. Keyboard optional +89,99 €",
+        base: 169.99,
+        preorder: false,
+        storages: [{size:256, delta:0},{size:512, delta:50},{size:1024, delta:100}],
+        colors: [
+            {name:"Weiss", phone:"#f6fff7", pad:"#f6fff7"},
+            {name:"Stahl", phone:"#eef7ff", pad:"#eef7ff"},
+            {name:"Schwarz", phone:"#e9e9e9", pad:"#e9e9e9"}
+        ],
+        extras: { pen: {label:"NexPen (kostenlos)", price:0}, keyboard:{label:"Keyboard", price:89.99} },
+        type:"pad"
+    },
+    "nexphone-mini-8": {
+        id: "nexphone-mini-8",
+        label: "NexPhone Mini 8",
+        note: "",
+        base: 89.99,
+        preorder: false,
+        storages: [{size:128, delta:0},{size:256, delta:21}], // 256 = 110.99
+        colors: [
+            {name:"Weiss", phone:"#f2f9ff", pad:"#f6fff7"},
+            {name:"Mint", phone:"#eafff3", pad:"#f6fff7"}
+        ],
+        type:"phone"
+    }
 };
 
-/* =========================
-   App state
-   ========================= */
-let cart = []; // {id, productId, label, storage, color, extras, qty, unitPrice}
-let activeProductId = null;
-let activeColorIdx = 0;
-let activeStorageIdx = 0;
-let activeExtras = {}; // e.g. {pen:true, keyboard:false}
+// state
+let cart = []; // array of order items
+let current = null; // current product id in panel
+let currentColorIdx = 0;
+let currentStorageIdx = 0;
+let currentExtras = {}; // e.g. {pen:true, keyboard:false}
 
-/* helper */
+/* ---------- Helper: currency format ---------- */
 const fmt = v => new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(v);
-function round(n,dec=2){ return Math.round(n * Math.pow(10,dec))/Math.pow(10,dec); }
 
-/* init tile prices */
+/* ---------- UI refs ---------- */
+const overlay = document.getElementById('overlay');
+const panelTitle = document.getElementById('panel-title');
+const previewSvgWrap = document.getElementById('preview-svg');
+const colorSwatches = document.getElementById('color-swatches');
+const storageOptions = document.getElementById('storage-options');
+const priceDisplay = document.getElementById('price-display');
+const addToCartBtn = document.getElementById('add-to-cart');
+const buyNowBtn = document.getElementById('buy-now');
+const modelNameEl = document.getElementById('model-name');
+const modelNoteEl = document.getElementById('model-note');
+const preorderLabel = document.getElementById('preorder-label');
+const extrasArea = document.getElementById('extras-area');
+const bagCountEl = document.getElementById('bag-count');
+const cartDrawer = document.getElementById('cart-drawer');
+const cartItemsEl = document.getElementById('cart-items');
+const cartSubtotalEl = document.getElementById('cart-subtotal');
+
+/* ---------- Open configurator for product ---------- */
+document.querySelectorAll('[data-product]').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+        const pid = btn.dataset.product;
+        openConfigurator(pid);
+    });
+});
+
+/* open configurator function */
+function openConfigurator(productId){
+    const p = PRODUCTS[productId];
+    if(!p) return;
+    current = productId;
+    currentColorIdx = 0;
+    currentStorageIdx = 0;
+    currentExtras = {};
+    // populate panel header
+    panelTitle.textContent = "Konfiguriere — " + p.label;
+    modelNameEl.textContent = p.label;
+    modelNoteEl.textContent = p.note || "";
+    preorderLabel.textContent = p.preorder ? "Vorbestellung: +20,00 € zum Basispreis" : "";
+    // preview svg
+    renderPreviewSvg(p);
+    // colors
+    renderColorSwatches(p);
+    // storage
+    renderStorageOptions(p);
+    // extras (for pad)
+    renderExtras(p);
+    // show overlay
+    overlay.style.display = 'flex';
+    updatePriceDisplay();
+}
+
+/* close panel */
+document.getElementById('close-panel').addEventListener('click', ()=>{ overlay.style.display='none'; });
+
+/* render preview SVG based on type */
+function renderPreviewSvg(p){
+    // simple SVG placeholders; color will be applied to main rect fill
+    let svg = '';
+    if(p.type === 'phone'){
+        svg = `<svg viewBox="0 0 220 420" width="200" height="360" xmlns="http://www.w3.org/2000/svg">
+            <rect id="preview-body" x="20" y="10" rx="20" width="180" height="400" fill="${p.colors[0].phone}" stroke="#d7e7ff"/>
+            <rect x="44" y="60" rx="12" width="132" height="260" fill="#fff"/>
+        </svg>`;
+    }else{
+        svg = `<svg viewBox="0 0 360 260" width="260" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect id="preview-body" x="20" y="16" rx="16" width="320" height="228" fill="${p.colors[0].pad}" stroke="#e8f8ea"/>
+            <rect x="44" y="40" rx="8" width="272" height="168" fill="#fff"/>
+        </svg>`;
+    }
+    previewSvgWrap.innerHTML = svg;
+}
+
+/* render color swatches and click behavior */
+function renderColorSwatches(p){
+    colorSwatches.innerHTML = '';
+    p.colors.forEach((c, idx)=>{
+        const d = document.createElement('div');
+        d.className = 'swatch';
+        d.title = c.name;
+        d.style.background = (p.type === 'phone' ? c.phone : c.pad);
+        d.dataset.idx = idx;
+        d.addEventListener('click', ()=>{ currentColorIdx = idx; applyColorToPreview(); highlightSwatches(); });
+        colorSwatches.appendChild(d);
+    });
+    highlightSwatches();
+    applyColorToPreview();
+}
+function highlightSwatches(){ Array.from(colorSwatches.children).forEach((el,i)=> el.style.outline = i===currentColorIdx ? '3px solid var(--accent)' : 'none'); }
+function applyColorToPreview(){
+    const p = PRODUCTS[current];
+    if(!p) return;
+    const col = p.colors[currentColorIdx];
+    const body = document.getElementById('preview-body');
+    if(body) body.setAttribute('fill', p.type === 'phone' ? col.phone : col.pad);
+}
+
+/* render storage options */
+function renderStorageOptions(p){
+    storageOptions.innerHTML = '';
+    p.storages.forEach((st, idx)=>{
+        const div = document.createElement('div');
+        div.className = 'option-box' + (idx===0 ? ' selected' : '');
+        div.dataset.idx = idx;
+        div.dataset.delta = st.delta;
+        div.dataset.size = st.size;
+        div.innerHTML = `<div style="font-weight:600">${st.size} GB</div><div class="small-muted">${st.delta>0 ? '+ ' + fmt(st.delta) : 'Standard'}</div>`;
+        div.addEventListener('click', ()=>{
+            Array.from(storageOptions.children).forEach(x=>x.classList.remove('selected'));
+            div.classList.add('selected');
+            currentStorageIdx = idx;
+            updatePriceDisplay();
+        });
+        storageOptions.appendChild(div);
+    });
+}
+
+/* extras area (checkboxes) */
+function renderExtras(p){
+    extrasArea.innerHTML = '';
+    if(p.extras){
+        const wrapper = document.createElement('div');
+        wrapper.className = 'config-section';
+        wrapper.innerHTML = '<h4>Extras</h4>';
+        // pen
+        const pen = document.createElement('label');
+        pen.style.display = 'block';
+        pen.style.marginTop = '8px';
+        pen.innerHTML = `<input type="checkbox" id="extra-pen"> ${p.extras.pen.label}`;
+        wrapper.appendChild(pen);
+        // keyboard
+        const kb = document.createElement('label');
+        kb.style.display = 'block';
+        kb.style.marginTop = '8px';
+        kb.innerHTML = `<input type="checkbox" id="extra-kb"> ${p.extras.keyboard.label} (+ ${fmt(p.extras.keyboard.price)})`;
+        wrapper.appendChild(kb);
+
+        extrasArea.appendChild(wrapper);
+
+        // event listeners
+        document.getElementById('extra-pen').addEventListener('change', e=>{ currentExtras.pen = e.target.checked; updatePriceDisplay(); });
+        document.getElementById('extra-kb').addEventListener('change', e=>{ currentExtras.keyboard = e.target.checked; updatePriceDisplay(); });
+    } else {
+        // no extras
+        extrasArea.innerHTML = '<div class="small-muted" style="margin-top:12px">Keine Extras für dieses Modell.</div>';
+    }
+}
+
+/* compute price */
+function computeCurrentPrice(){
+    const p = PRODUCTS[current];
+    if(!p) return 0;
+    let price = p.base;
+    // preorder +20 surcharge applied to base if preorder
+    if(p.preorder) price += 20.00;
+    // storage delta
+    const st = p.storages[currentStorageIdx];
+    if(st && st.delta) price += st.delta;
+    // extras
+    if(p.extras){
+        if(currentExtras.keyboard) price += p.extras.keyboard.price;
+        // pen is free (price 0) but we still include presence
+    }
+    return numberRound(price,2);
+}
+function numberRound(n,dec=2){ return Math.round(n * Math.pow(10,dec)) / Math.pow(10,dec); }
+
+function updatePriceDisplay(){
+    const p = PRODUCTS[current];
+    if(!p) { priceDisplay.textContent = fmt(0); return; }
+    const price = computeCurrentPrice();
+    priceDisplay.textContent = fmt(price);
+}
+
+/* Add to cart */
+addToCartBtn.addEventListener('click', ()=>{
+    const p = PRODUCTS[current];
+    if(!p) return;
+    const storage = p.storages[currentStorageIdx];
+    const color = p.colors[currentColorIdx];
+    const extras = {};
+    if(p.extras){
+        extras.pen = !!currentExtras.pen;
+        extras.keyboard = !!currentExtras.keyboard;
+    }
+    const item = {
+        id: p.id + '-' + Date.now(),
+        productId: p.id,
+        name: p.label,
+        storage: storage.size,
+        color: color.name,
+        basePrice: p.base + (p.preorder?20:0),
+        storageDelta: storage.delta,
+        extras: extras,
+        qty: 1,
+        unitPrice: computeCurrentPrice()
+    };
+    cart.push(item);
+    overlay.style.display = 'none';
+    renderCart();
+});
+
+/* Buy now (quick checkout) -> add to cart and go to checkout */
+buyNowBtn.addEventListener('click', ()=>{
+    addToCartBtn.click();
+    openCart();
+});
+
+/* Cart rendering */
+function renderCart(){
+    // update bag count UI
+    const count = cart.reduce((s,i)=>s+i.qty,0);
+    bagCountEl.style.display = count>0 ? 'inline-block' : 'none';
+    bagCountEl.textContent = count;
+
+    // populate drawer if visible
+    if(cartDrawer.style.display !== 'none' && cartDrawer.style.display !== '') {
+        // will be handled by openCart logic too
+    }
+
+    // if drawer open, update items list
+    if(cartDrawer.style.display === 'block'){
+        populateCartItems();
+    }
+}
+
+/* open cart drawer */
+document.getElementById('nav-bag').addEventListener('click', openCart);
+function openCart(){
+    populateCartItems();
+    cartDrawer.style.display = 'block';
+    cartDrawer.setAttribute('aria-hidden','false');
+}
+
+/* close cart */
+document.getElementById('cart-close').addEventListener('click', ()=>{
+    cartDrawer.style.display = 'none';
+    cartDrawer.setAttribute('aria-hidden','true');
+});
+
+/* populate cart items */
+function populateCartItems(){
+    cartItemsEl.innerHTML = '';
+    if(cart.length === 0){
+        cartItemsEl.innerHTML = '<div class="small-muted">Dein Warenkorb ist leer.</div>';
+        cartSubtotalEl.textContent = fmt(0);
+        return;
+    }
+    cart.forEach((it, idx)=>{
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+            <div style="flex:1">
+                <div style="font-weight:600">${it.name} — ${it.storage}GB</div>
+                <div class="small-muted">${it.color}${it.extras && it.extras.keyboard ? ' • Tastatur' : ''}${it.extras && it.extras.pen ? ' • NexPen' : ''}</div>
+            </div>
+            <div style="text-align:right">
+                <div style="font-weight:700">${fmt(it.unitPrice)}</div>
+                <div style="display:flex;gap:6px;align-items:center;margin-top:8px;justify-content:flex-end">
+                    <button class="btn ghost" data-action="remove" data-idx="${idx}" style="padding:6px 10px">Entfernen</button>
+                </div>
+            </div>
+        `;
+        cartItemsEl.appendChild(div);
+    });
+    // attach remove listeners
+    cartItemsEl.querySelectorAll('[data-action="remove"]').forEach(btn=>{
+        btn.addEventListener('click', e=>{
+            const idx = parseInt(btn.dataset.idx);
+            if(!isNaN(idx)){
+                cart.splice(idx,1);
+                populateCartItems();
+                renderCart();
+            }
+        });
+    });
+
+    // subtotal
+    const subtotal = cart.reduce((s,i)=>s + (i.unitPrice * i.qty),0);
+    cartSubtotalEl.textContent = fmt(subtotal);
+}
+
+/* Checkout -> create PDF invoice and clear cart */
+document.getElementById('checkout').addEventListener('click', async ()=>{
+    if(cart.length === 0){ alert('Dein Warenkorb ist leer.'); return; }
+    // simple prompt for customer info
+    const fn = prompt('Vorname:', 'Max');
+    if(!fn){ return; }
+    const ln = prompt('Nachname:', 'Mustermann');
+    if(!ln) return;
+    const email = prompt('E-Mail für Rechnung:', 'max@example.com');
+    if(!email) return;
+
+    // build order object
+    const orderId = 'NX-' + Date.now();
+    const createdAt = new Date().toISOString();
+    const items = cart.map(it => ({
+        title: it.name + ' — ' + it.storage + 'GB (' + it.color + ')' + (it.extras && it.extras.keyboard ? ' + Keyboard' : '') + (it.extras && it.extras.pen ? ' + Pen' : ''),
+        qty: it.qty,
+        unitPrice: it.unitPrice,
+        lineTotal: numberRound(it.unitPrice * it.qty, 2)
+    }));
+    const subtotal = numberRound(items.reduce((s,it)=>s+it.lineTotal,0),2);
+
+    const order = {
+        orderId, createdAt, customer: {fn,ln,email}, items, totals: {subtotal, shipping:0, total:subtotal}
+    };
+
+    // generate PDF
+    try{
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({unit:'pt',format:'a4'});
+        const left = 40; let y = 40;
+        doc.setFontSize(18); doc.text('Nex Inc. — Rechnung', left, y); y+=22;
+        doc.setFontSize(11); doc.text('Rechnungsnr: ' + order.orderId, left, y); doc.text('Datum: ' + new Date(order.createdAt).toLocaleString('de-DE'), 420, y); y+=18;
+        doc.setFontSize(12); doc.text('Rechnung an:', left, y); y+=14; doc.setFontSize(11);
+        doc.text(order.customer.fn + ' ' + order.customer.ln, left, y); y+=12; doc.text(order.customer.email, left, y); y+=18;
+        doc.setFontSize(12); doc.text('Positionen:', left, y); y+=14;
+        order.items.forEach(it=>{
+            doc.setFontSize(11); doc.text(it.title, left, y); doc.text(it.qty + ' × ' + fmt(it.unitPrice), 420, y); doc.text(fmt(it.lineTotal), 500, y);
+            y += 14;
+            if(y > 740){ doc.addPage(); y = 40; }
+        });
+        y+=12; doc.setFontSize(11); doc.text('Zwischensumme: ' + fmt(order.totals.subtotal), left, y); y+=14; doc.text('Gesamt: ' + fmt(order.totals.total), left, y);
+        const filename = 'rechnung-' + order.orderId + '.pdf';
+        doc.save(filename);
+        alert('Vielen Dank — deine Rechnung wurde heruntergeladen.');
+        // clear cart
+        cart = [];
+        renderCart();
+        cartDrawer.style.display = 'none';
+    }catch(err){
+        console.error(err);
+        alert('Fehler beim Erzeugen der Rechnung: ' + (err && err.message ? err.message : String(err)));
+    }
+});
+
+/* helper: close overlay click outside */
+overlay.addEventListener('click', (ev)=>{
+    if(ev.target === overlay){
+        overlay.style.display = 'none';
+    }
+});
+
+/* render initial product tile prices (apply preorder +20 where relevant) */
 function initTilePrices(){
-  for(const pid in PRODUCTS){
-    const p = PRODUCTS[pid];
-    const base = p.base + (p.preorder ? 20 : 0);
-    const el = document.getElementById('tile-price-' + pid);
-    if(el) el.textContent = 'Ab ' + fmt(base);
-  }
-  updateBagUI();
+    for(const pid in PRODUCTS){
+        const p = PRODUCTS[pid];
+        let displayBase = p.base + (p.preorder ? 20 : 0);
+        // For mini and other simple tiles, show minimum (i.e., base with storage base)
+        const tileEl = document.getElementById('price-' + pid) || null;
+        if(tileEl){
+            tileEl.textContent = 'Ab ' + fmt(displayBase);
+        }
+    }
 }
 initTilePrices();
 
-/* Show home */
-function showHome(){
-  document.getElementById('home').style.display = '';
-  document.getElementById('product-page').style.display = 'none';
-  closeCart();
-}
-
-/* Open product page (separate view) */
-function openProduct(pid){
-  const p = PRODUCTS[pid];
-  if(!p) return;
-  activeProductId = pid;
-  activeColorIdx = 0;
-  activeStorageIdx = 0;
-  activeExtras = {};
-
-  // populate title/note
-  document.getElementById('product-title').textContent = p.label;
-  document.getElementById('product-note').textContent = p.note || '';
-  document.getElementById('preorder-badge').textContent = p.preorder ? 'Vorbestellung' : '';
-
-  // preview svg
-  renderPreview(p);
-
-  // colors
-  renderColorSwatches(p);
-
-  // storages
-  renderStorageOptions(p);
-
-  // extras
-  renderExtrasArea(p);
-
-  // price
-  updateConfigPrice();
-
-  // show product page
-  document.getElementById('home').style.display = 'none';
-  document.getElementById('product-page').style.display = '';
-  window.scrollTo(0,0);
-}
-
-/* back to catalog */
-function backToCatalog(){ showHome(); }
-
-/* render preview (simple SVG) */
-function renderPreview(p){
-  const el = document.getElementById('preview-area');
-  if(p.type === 'phone'){
-    el.innerHTML = `<svg id="preview-svg" viewBox="0 0 220 420" width="200" height="360" xmlns="http://www.w3.org/2000/svg">
-      <rect id="body-rect" x="20" y="10" rx="20" width="180" height="400" fill="${p.colors[0].phone}" stroke="#d7e7ff"/>
-      <rect x="44" y="60" rx="12" width="132" height="260" fill="#fff"/>
-    </svg>`;
-  } else {
-    el.innerHTML = `<svg id="preview-svg" viewBox="0 0 360 260" width="260" height="200" xmlns="http://www.w3.org/2000/svg">
-      <rect id="body-rect" x="20" y="16" rx="16" width="320" height="228" fill="${p.colors[0].phone}" stroke="#e8f8ea"/>
-      <rect x="44" y="40" rx="8" width="272" height="168" fill="#fff"/>
-    </svg>`;
-  }
-}
-
-/* color swatches */
-function renderColorSwatches(p){
-  const wrap = document.getElementById('color-swatches');
-  wrap.innerHTML = '';
-  p.colors.forEach((c, idx)=>{
-    const d = document.createElement('div');
-    d.className = 'swatch';
-    d.style.background = c.phone;
-    d.title = c.name;
-    d.dataset.idx = idx;
-    d.style.outline = idx === activeColorIdx ? '3px solid var(--accent)' : 'none';
-    d.addEventListener('click', ()=>{
-      activeColorIdx = idx;
-      applyColorToPreview();
-      renderColorSwatches(p);
-    });
-    wrap.appendChild(d);
-  });
-  applyColorToPreview();
-}
-function applyColorToPreview(){
-  const p = PRODUCTS[activeProductId];
-  if(!p) return;
-  const col = p.colors[activeColorIdx];
-  const body = document.getElementById('body-rect');
-  if(body) body.setAttribute('fill', col.phone);
-}
-
-/* storage options */
-function renderStorageOptions(p){
-  const grid = document.getElementById('storage-grid');
-  grid.innerHTML = '';
-  p.storages.forEach((st, idx)=>{
-    const div = document.createElement('div');
-    div.className = 'option-box' + (idx===activeStorageIdx ? ' selected' : '');
-    div.dataset.idx = idx;
-    div.innerHTML = `<div style="font-weight:700">${st.size} GB</div><div class="small-muted">${st.delta>0 ? '+ ' + fmt(st.delta) : 'Standard'}</div>`;
-    div.addEventListener('click', ()=>{
-      activeStorageIdx = idx;
-      renderStorageOptions(p);
-      updateConfigPrice();
-    });
-    grid.appendChild(div);
-  });
-}
-
-/* extras (only for pad) */
-function renderExtrasArea(p){
-  const area = document.getElementById('extras-area');
-  area.innerHTML = '';
-  if(p.extras){
-    const wrapper = document.createElement('div');
-    wrapper.style.marginTop='12px';
-    wrapper.innerHTML = `<div class="small-muted">Extras</div>
-      <label style="display:block;margin-top:8px"><input type="checkbox" id="chk-pen"> ${p.extras.pen.label}</label>
-      <label style="display:block;margin-top:8px"><input type="checkbox" id="chk-kb"> ${p.extras.keyboard.label} (+ ${fmt(p.extras.keyboard.price)})</label>`;
-    area.appendChild(wrapper);
-
-    // attach events
-    document.getElementById('chk-pen').addEventListener('change', (e)=>{ activeExtras.pen = e.target.checked; updateConfigPrice(); });
-    document.getElementById('chk-kb').addEventListener('change', (e)=>{ activeExtras.keyboard = e.target.checked; updateConfigPrice(); });
-  } else {
-    area.innerHTML = '<div style="margin-top:12px" class="small-muted">Keine Extras für dieses Modell.</div>';
-  }
-}
-
-/* compute config price */
-function computeConfigPrice(){
-  const p = PRODUCTS[activeProductId];
-  if(!p) return 0;
-  let price = p.base;
-  if(p.preorder) price += 20.00;
-  const st = p.storages[activeStorageIdx];
-  if(st && st.delta) price += st.delta;
-  if(p.extras){
-    if(activeExtras.keyboard) price += p.extras.keyboard.price;
-    // pen price is 0
-  }
-  return round(price,2);
-}
-function updateConfigPrice(){
-  const price = computeConfigPrice();
-  document.getElementById('config-price').textContent = fmt(price);
-}
-
-/* add to bag */
-document.getElementById('btn-add-to-bag').addEventListener('click', ()=>{
-  const p = PRODUCTS[activeProductId];
-  if(!p) return;
-  const storage = p.storages[activeStorageIdx];
-  const color = p.colors[activeColorIdx];
-  const extras = {};
-  if(p.extras){
-    extras.pen = !!activeExtras.pen;
-    extras.keyboard = !!activeExtras.keyboard;
-  }
-  const item = {
-    id: p.id + '-' + Date.now(),
-    productId: p.id,
-    label: p.label,
-    storage: storage.size,
-    color: color.name,
-    extras: extras,
-    qty: 1,
-    unitPrice: computeConfigPrice()
-  };
-  cart.push(item);
-  updateBagUI();
-  alert('Artikel in die Tasche gelegt.');
+/* Accessibility & keyboard close */
+document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+        overlay.style.display = 'none';
+        cartDrawer.style.display = 'none';
+    }
 });
 
-/* buy now => add to cart then open checkout */
-document.getElementById('btn-buy-now').addEventListener('click', ()=>{
-  document.getElementById('btn-add-to-bag').click();
-  openCheckout();
-});
+/* Ensure cart render when page loads */
+renderCart();
 
-/* BAG UI */
-function updateBagUI(){
-  const count = cart.reduce((s,i)=>s+i.qty,0);
-  const bag = document.getElementById('bag-count');
-  if(count>0){ bag.style.display='inline-block'; bag.textContent = count; } else { bag.style.display='none'; }
-  // also update cart drawer if open
-  if(document.getElementById('cart-drawer').style.display === 'block') populateCartDrawer();
-}
-
-/* cart drawer open/close */
-function toggleCart(){ const d = document.getElementById('cart-drawer'); if(d.style.display === 'block'){ closeCart(); } else { openCart(); } }
-function openCart(){ populateCartDrawer(); document.getElementById('cart-drawer').style.display = 'block'; }
-function closeCart(){ document.getElementById('cart-drawer').style.display = 'none'; }
-
-/* populate cart drawer */
-function populateCartDrawer(){
-  const wrap = document.getElementById('cart-items');
-  wrap.innerHTML = '';
-  if(cart.length === 0){ wrap.innerHTML = '<div class="small-muted">Dein Warenkorb ist leer.</div>'; document.getElementById('cart-subtotal').textContent = fmt(0); return; }
-  cart.forEach((it, idx)=>{
-    const div = document.createElement('div');
-    div.className = 'cart-item';
-    div.innerHTML = `<div style="flex:1">
-      <div style="font-weight:700">${it.label} — ${it.storage}GB</div>
-      <div class="small-muted">${it.color}${it.extras && it.extras.keyboard ? ' • Keyboard' : ''}${it.extras && it.extras.pen ? ' • NexPen' : ''}${PRODUCTS[it.productId].preorder ? ' • Vorbestellung':''}</div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-weight:700">${fmt(it.unitPrice)}</div>
-      <div style="margin-top:8px"><button class="btn ghost" onclick="removeCartItem(${idx})">Entfernen</button></div>
-    </div>`;
-    wrap.appendChild(div);
-  });
-  const subtotal = cart.reduce((s,i)=>s + (i.unitPrice * i.qty),0);
-  document.getElementById('cart-subtotal').textContent = fmt(round(subtotal,2));
-}
-
-/* remove */
-function removeCartItem(idx){ if(idx>=0 && idx<cart.length) cart.splice(idx,1); populateCartDrawer(); updateBagUI(); }
-
-/* OPEN CHECKOUT (modal) */
-function openCheckout(){
-  if(cart.length === 0){ alert('Dein Warenkorb ist leer.'); return; }
-  populateCartDrawer();
-  // prefill checkout total
-  const subtotal = cart.reduce((s,i)=>s + (i.unitPrice * i.qty),0);
-  document.getElementById('checkout-total').textContent = fmt(round(subtotal,2));
-  document.getElementById('checkout-modal').style.display = 'flex';
-}
-
-/* close checkout */
-function closeCheckout(){ document.getElementById('checkout-modal').style.display = 'none'; }
-
-/* simulate payment */
-async function simulatePayment(){
-  // validate minimal fields
-  const fn = document.getElementById('cust-first').value.trim();
-  const ln = document.getElementById('cust-last').value.trim();
-  const email = document.getElementById('cust-email').value.trim();
-  const card = document.getElementById('card-number').value.replace(/\s/g,'').trim();
-  if(!fn || !ln || !email){ alert('Bitte Vorname, Nachname und E-Mail ausfüllen.'); return; }
-  if(!card || card.length < 12){ if(!confirm('Kartendaten unvollständig — trotzdem simulieren?')) return; }
-
-  // simulate processing
-  const btn = document.querySelector('#checkout-modal .btn:not(.ghost)');
-  btn.disabled = true;
-  const old = btn.textContent;
-  btn.textContent = 'Zahlung wird verarbeitet...';
-  await new Promise(r=>setTimeout(r,1400));
-  btn.textContent = old;
-  btn.disabled = false;
-
-  // create order and PDF invoice
-  const orderId = 'NX-' + Date.now();
-  const createdAt = new Date().toISOString();
-  const items = cart.map(it => ({
-    title: it.label + ' — ' + it.storage + 'GB (' + it.color + ')' + (it.extras && it.extras.keyboard ? ' + Keyboard' : '') + (it.extras && it.extras.pen ? ' + NexPen' : ''),
-    qty: it.qty,
-    unitPrice: it.unitPrice,
-    lineTotal: round(it.unitPrice * it.qty,2)
-  }));
-  const subtotal = round(items.reduce((s,i)=>s + i.lineTotal, 0),2);
-  const order = { orderId, createdAt, customer:{fn,ln,email}, items, totals:{subtotal,shipping:0,total:subtotal} };
-
-  try{
-    // generate simple PDF via jsPDF
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({unit:'pt',format:'a4'});
-    let y = 40, left = 40;
-    doc.setFontSize(18); doc.text('Nex Inc. — Rechnung', left, y); y+=24;
-    doc.setFontSize(11); doc.text('Rechnungsnr: ' + order.orderId, left, y); doc.text('Datum: ' + new Date(order.createdAt).toLocaleString('de-DE'), 420, y); y+=18;
-    doc.setFontSize(12); doc.text('Rechnung an:', left, y); y+=14; doc.setFontSize(11);
-    doc.text(order.customer.fn + ' ' + order.customer.ln, left, y); y+=12; doc.text(order.customer.email, left, y); y+=14;
-    doc.setFontSize(12); doc.text('Positionen:', left, y); y+=14;
-    order.items.forEach(it=>{
-      doc.setFontSize(11);
-      doc.text(it.title, left, y);
-      doc.text(it.qty + ' × ' + fmt(it.unitPrice), 420, y);
-      doc.text(fmt(it.lineTotal), 500, y);
-      y += 14;
-      if(y > 740){ doc.addPage(); y = 40; }
-    });
-    y += 8;
-    doc.setFontSize(11); doc.text('Zwischensumme: ' + fmt(order.totals.subtotal), left, y); y+=14;
-    doc.text('Gesamt: ' + fmt(order.totals.total), left, y);
-    const fname = 'rechnung-' + order.orderId + '.pdf';
-    doc.save(fname);
-  } catch(err){
-    console.error('PDF Fehler', err);
-  }
-
-  // clear cart and close modal, show success
-  cart = [];
-  updateBagUI();
-  populateCartDrawer();
-  closeCheckout();
-  document.getElementById('success-msg').textContent = `Vielen Dank ${fn}! Deine Bestellung (${orderId}) wurde erfolgreich bearbeitet. Rechnung wurde heruntergeladen.`;
-  document.getElementById('success-modal').style.display = 'flex';
-}
-
-/* success modal close */
-function closeSuccess(){ document.getElementById('success-modal').style.display = 'none'; showHome(); }
-
-/* utility: initial update */
-function init(){
-  updateBagUI();
-  // ensure tile prices updated
-  initTilePrices();
-}
-init();
-
-/* Accessibility: close modals with escape */
-document.addEventListener('keydown',(e)=>{
-  if(e.key === 'Escape'){
-    document.getElementById('checkout-modal').style.display='none';
-    document.getElementById('success-modal').style.display='none';
-    document.getElementById('cart-drawer').style.display='none';
-  }
-});
 </script>
 </body>
 </html>
